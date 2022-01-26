@@ -21,7 +21,7 @@ jobs:
         run: |
           echo "::set-output name=tag::${TAG_NAME#v}"
       - name: Build Release
-        uses: MatteoCampinoti94/changelog-to-release@v1.0.0
+        uses: ./
         with:
           version-name: ${{ steps.formattedTag.outputs.tag }}
       - name: Release Result
