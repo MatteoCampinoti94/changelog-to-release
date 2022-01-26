@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.1
+
+### Fixes
+
+* Fix regex error when parsing version headers
+
 ## v1.0.0 - First Release
 
 First release of the action available at `MatteoCampinoti94/changelog-to-release@v1.0.0`.
