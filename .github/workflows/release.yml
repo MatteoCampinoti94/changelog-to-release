@@ -21,6 +21,7 @@ jobs:
           echo "::set-output name=tag::$TAG"
           echo "::set-output name=tagName::${TAG#v}"
       - name: Build Release
+        id: release
         uses: ./
         with:
           version-name: ${{ steps.tag.outputs.tagName }}
