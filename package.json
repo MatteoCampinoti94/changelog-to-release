@@ -1,0 +1,22 @@
+{
+  "name": "changelog-to-release",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MatteoCampinoti94/changelog-to-release.git"
+  },
+  "keywords": [],
+  "author": {
+    "name": "MatteoCampinoti94",
+    "url": "https://github.com/MatteoCampinoti94"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MatteoCampinoti94/changelog-to-release/issues"
+  },
+  "homepage": "https://github.com/MatteoCampinoti94/changelog-to-release"
+}
