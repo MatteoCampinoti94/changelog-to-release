@@ -84,7 +84,7 @@ function emojiSections(sections, sectionsEmojis, prefix) {
 
 function buildRelease(sections) {
   let release = sections.unlabelled ? sections.unlabelled.trim() + "\n\n" : "";
-  sections.sections.forEach(([title, body]) => release += `### ${title}\n\n${body}\n\n`);
+  sections.sections.forEach(([title, body]) => release += `## ${title}\n\n${body.replace(/^#/mg, "")}\n\n`);
   return release.trim();
 }
 
@@ -93,16 +93,16 @@ try {
   const changelogPath = core.getInput("changelog");
   const configurationPath = core.getInput("configuration") || null;
 
-  core.info(`VERSION: ${versionName}`)
+  core.info(`VERSION: ${versionName}`);
   core.info(`CHANGELOG: ${changelogPath}`);
   core.info(`CONFIGURATION: ${configurationPath || "{default}"}`);
 
   const changelog = fs.readFileSync(changelogPath, {encoding: "utf-8"}).trim() + "\n";
   const configuration = configurationPath ? JSON.parse(fs.readFileSync(configurationPath, {encoding: "utf-8"})) : defaultConfiguration;
 
-  const versions = findVersions(changelog)
+  const versions = findVersions(changelog);
   const version = versions[versionName];
-  core.info(`VERSIONS: ${Object.keys(versions).join("\n")}`)
+  core.info(`VERSIONS: ${Object.keys(versions).join("\n")}`);
   if (version === undefined) return core.setFailed(`ERROR: Version '${versionName}' not in ${path.basename(changelogPath)}`);
 
   const sections = findSections(version.body);
