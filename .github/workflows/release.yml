@@ -18,7 +18,7 @@ jobs:
         uses: olegtarasov/get-tag@v2.1.1
       - name: Build Release
         id: release
-        uses: MatteoCampinoti94/changelog-to-release@v1.0.0
+        uses: MatteoCampinoti94/changelog-to-release@main
         with:
           version-name: ${{ steps.tagName.outputs.tag }}
       - name: Create Release
