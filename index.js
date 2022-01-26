@@ -103,7 +103,7 @@ try {
 
   const versions = findVersions(changelog);
   const version = versions[versionName];
-  core.info(`VERSIONS: ${Object.keys(versions).length}`);
+  core.info(`VERSIONS: ${Object.keys(versions).slice(0, 5).join(", ")}` + (Object.keys(versions).length > 5 ? `, ... [${Object.keys(versions).length - 5} more]` : ""));
   if (version === undefined) return core.setFailed(`ERROR: Version '${versionName}' not in ${path.basename(changelogPath)}`);
 
   const sections = findSections(version.body);
