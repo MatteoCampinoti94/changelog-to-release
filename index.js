@@ -22,8 +22,8 @@ function findVersions(changelog) {
 
   while (nextHeader >= 0) {
     changelog = changelog.substr(nextHeader);
-    const version = changelog.match(/^## ([^ ]*).*$/m)[1].trim();
-    const title = changelog.match(/^## (.*)$/m)[1].trim();
+    const version = changelog.match(/^## ([^ \n]*)[^\n]*$/m)[1].trim();
+    const title = changelog.match(/^## ([^\n]*)$/m)[1].trim();
     changelog = changelog.substr(changelog.search(/\n/));
     nextHeader = changelog.search(/^## /m);
     nextHeader = nextHeader >= 0 ? nextHeader : changelog.length;
@@ -44,7 +44,7 @@ function findSections(changelog) {
 
   while (nextHeader >= 0) {
     changelog = changelog.substr(nextHeader);
-    const title = changelog.match(/^### (.*)$/m)[1].trim();
+    const title = changelog.match(/^### ([^\n]*)$/m)[1].trim();
     changelog = changelog.substr(changelog.search(/\n/));
     nextHeader = changelog.search(/^### /m);
     nextHeader = nextHeader >= 0 ? nextHeader : changelog.length;
@@ -99,7 +99,7 @@ try {
 
   const changelog = fs.readFileSync(changelogPath, {encoding: "utf-8"}).trim() + "\n";
   const configuration = configurationPath ? JSON.parse(fs.readFileSync(configurationPath, {encoding: "utf-8"})) : defaultConfiguration;
-  configuration.emojisPrefix = configuration.emojisPrefix === undefined ? true : configuration.emojisPrefix
+  configuration.emojisPrefix = configuration.emojisPrefix === undefined ? true : configuration.emojisPrefix;
 
   const versions = findVersions(changelog);
   const version = versions[versionName];
