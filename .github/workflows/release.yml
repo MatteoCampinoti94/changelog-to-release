@@ -17,6 +17,7 @@ jobs:
         id: tag
         run: |
           TAG="$(git tag -l --sort=-version:refname | head -1)"
+          echo $TAG
           echo "::set-output name=tag::$TAG"
           echo "::set-output name=tagName::${TAG#v}"
       - name: Build Release
