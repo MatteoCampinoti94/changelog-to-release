@@ -110,7 +110,7 @@ try {
   sections.sections = emojiSections(sections.sections, configuration.emojis || {}, configuration.emojisPrefix ?? true);
 
   core.setOutput("title", version.title);
-  core.setOutput("release", buildRelease(sections));
+  core.setOutput("body", buildRelease(sections));
 } catch (error) {
   core.setFailed(error.message);
 }
