@@ -22,7 +22,7 @@ function findVersions(changelog) {
 
   while (nextHeader >= 0) {
     changelog = changelog.substr(nextHeader);
-    const version = changelog.match(/^## ([^ ]*)$/m)[1].trim();
+    const version = changelog.match(/^## ([^ ]*).*$/m)[1].trim();
     const title = changelog.match(/^## (.*)$/m)[1].trim();
     changelog = changelog.substr(changelog.search(/\n/));
     nextHeader = changelog.search(/^## /m);
