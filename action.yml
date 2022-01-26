@@ -1,0 +1,18 @@
+name: "Changelog to Release"
+description: "Convert changelog entry to release body"
+inputs:
+  changelog:
+    description: "Path to CHANGELOG.md"
+    required: true
+    default: "CHANGELOG.md"
+  configuration:
+    description: "Path to configuration file"
+    required: false
+outputs:
+  title:
+    description: "Release title"
+  body:
+    description: "Release body"
+runs:
+  using: node16
+  main: "index.js"
