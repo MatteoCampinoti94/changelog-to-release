@@ -99,6 +99,7 @@ try {
 
   const changelog = fs.readFileSync(changelogPath, {encoding: "utf-8"}).trim() + "\n";
   const configuration = configurationPath ? JSON.parse(fs.readFileSync(configurationPath, {encoding: "utf-8"})) : defaultConfiguration;
+  configuration.emojisPrefix = configuration.emojisPrefix === undefined ? true : configuration.emojisPrefix
 
   const versions = findVersions(changelog);
   const version = versions[versionName];
@@ -107,7 +108,7 @@ try {
 
   const sections = findSections(version.body);
   sections.sections = orderSections(sections.sections, configuration.order || []);
-  sections.sections = emojiSections(sections.sections, configuration.emojis || {}, configuration.emojisPrefix ?? true);
+  sections.sections = emojiSections(sections.sections, configuration.emojis || {}, configuration.emojisPrefix);
 
   core.setOutput("title", version.title);
   core.setOutput("body", buildRelease(sections));
