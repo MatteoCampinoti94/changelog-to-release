@@ -1,9 +1,12 @@
 name: "Changelog to Release"
 description: "Convert changelog entry to release body"
 inputs:
+  version-name:
+    description: "Version to find in changelog"
+    required: true
   changelog:
     description: "Path to CHANGELOG.md"
-    required: true
+    required: false
     default: "CHANGELOG.md"
   configuration:
     description: "Path to configuration file"
