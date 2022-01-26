@@ -5,7 +5,7 @@ inputs:
     description: "Version to find in changelog"
     required: true
   changelog:
-    description: "Path to CHANGELOG.md"
+    description: "Path to changelog"
     required: false
     default: "CHANGELOG.md"
   configuration:
