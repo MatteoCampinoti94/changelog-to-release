@@ -22,10 +22,11 @@ function findVersions(changelog) {
 
   while (nextHeader >= 0) {
     changelog = changelog.substr(nextHeader);
-    const version = changelog.match(/^## ([^ ]*)/m)[1].trim();
-    const title = changelog.match(/^## (.*)/m)[1].trim();
+    const version = changelog.match(/^## ([^ ]*)$/m)[1].trim();
+    const title = changelog.match(/^## (.*)$/m)[1].trim();
     changelog = changelog.substr(changelog.search(/\n/));
     nextHeader = changelog.search(/^## /m);
+    nextHeader = nextHeader >= 0 ? nextHeader : changelog.length;
     versions[version] = {
       title, body: changelog.substring(0, nextHeader - 1).trim(),
     };
@@ -43,7 +44,7 @@ function findSections(changelog) {
 
   while (nextHeader >= 0) {
     changelog = changelog.substr(nextHeader);
-    const title = changelog.match(/^### (.*)/m)[1].trim();
+    const title = changelog.match(/^### (.*)$/m)[1].trim();
     changelog = changelog.substr(changelog.search(/\n/));
     nextHeader = changelog.search(/^### /m);
     nextHeader = nextHeader >= 0 ? nextHeader : changelog.length;
@@ -96,7 +97,7 @@ try {
   core.info(`CHANGELOG: ${changelogPath}`);
   core.info(`CONFIGURATION: ${configurationPath || "{default}"}`);
 
-  const changelog = fs.readFileSync(changelogPath, {encoding: "utf-8"});
+  const changelog = fs.readFileSync(changelogPath, {encoding: "utf-8"}).trim() + "\n";
   const configuration = configurationPath ? JSON.parse(fs.readFileSync(configurationPath, {encoding: "utf-8"})) : defaultConfiguration;
 
   const versions = findVersions(changelog)
