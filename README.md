@@ -70,6 +70,57 @@ The configuration uses three fields:
 
 ## Example
 
-![](docs/example-changelog.png)
-![](docs/example-action.png)
+### Changelog
+
+```markdown
+# Changelog
+
+## v1.0.0 - First Release
+
+First release of the action available at `MatteoCampinoti94/changelog-to-release@v1.0.0`.
+
+### Features
+
+* Parse CHANGELOG.md to create release body
+* Add emojis 🚀 to the title sections
+* Sort sections
+```
+
+### Action
+
+```yaml
+name: Release
+
+on:
+  push:
+    tags:
+      - "*.*.*"
+  workflow_dispatch:
+
+jobs:
+  Release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Get Tag Name
+        id: tagName
+        uses: olegtarasov/get-tag@v2.1.1
+      - name: Build Release
+        id: release
+        uses: MatteoCampinoti94/changelog-to-release@v1.0.0
+        with:
+          version-name: ${{ steps.tagName.outputs.tag }}
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ steps.tagName.outputs.tag }}
+          name: ${{ steps.release.outputs.title }}
+          body: ${{ steps.release.outputs.body }}
+```
+
+### Release
+
 ![](docs/example-release.png)
