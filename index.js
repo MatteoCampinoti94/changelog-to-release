@@ -92,6 +92,7 @@ try {
   const changelogPath = core.getInput("changelog");
   const configurationPath = core.getInput("configuration");
 
+  console.log(`VERSION: ${versionName}`)
   console.log(`CHANGELOG: ${changelogPath}`);
   console.log(`CONFIGURATION: ${configurationPath || "{default}"}`);
 
