@@ -90,13 +90,13 @@ function buildRelease(sections) {
 try {
   const versionName = core.getInput("version-name", {required: true});
   const changelogPath = core.getInput("changelog");
-  const configurationPath = core.getInput("configuration");
+  const configurationPath = core.getInput("configuration") || null;
 
   core.info(`VERSION: ${versionName}`)
   core.info(`CHANGELOG: ${changelogPath}`);
   core.info(`CONFIGURATION: ${configurationPath || "{default}"}`);
 
-  const changelog = fs.readFileSync(configurationPath, {encoding: "utf-8"});
+  const changelog = fs.readFileSync(changelogPath, {encoding: "utf-8"});
   const configuration = configurationPath ? JSON.parse(fs.readFileSync(configurationPath, {encoding: "utf-8"})) : defaultConfiguration;
 
   const version = findVersions(changelog)[versionName];
