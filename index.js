@@ -92,9 +92,9 @@ try {
   const changelogPath = core.getInput("changelog");
   const configurationPath = core.getInput("configuration");
 
-  console.log(`VERSION: ${versionName}`)
-  console.log(`CHANGELOG: ${changelogPath}`);
-  console.log(`CONFIGURATION: ${configurationPath || "{default}"}`);
+  core.info(`VERSION: ${versionName}`)
+  core.info(`CHANGELOG: ${changelogPath}`);
+  core.info(`CONFIGURATION: ${configurationPath || "{default}"}`);
 
   const changelog = fs.readFileSync(configurationPath, {encoding: "utf-8"});
   const configuration = configurationPath ? JSON.parse(fs.readFileSync(configurationPath, {encoding: "utf-8"})) : defaultConfiguration;
