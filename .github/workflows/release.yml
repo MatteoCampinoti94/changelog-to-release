@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - "v*.*.*"
+      - "*.*.*"
   workflow_dispatch:
 
 jobs:
@@ -14,28 +14,17 @@ jobs:
         with:
           fetch-depth: 0
       - name: Get Tag Name
-        id: tag
-        run: |
-          TAG="$(git tag -l --sort=-version:refname | head -1)"
-          echo $TAG
-          echo "::set-output name=tag::$TAG"
-          echo "::set-output name=tagName::${TAG#v}"
+        id: tagName
+        uses: olegtarasov/get-tag@v2.1.1
       - name: Build Release
         id: release
-        uses: ./
+        uses: MatteoCampinoti94/changelog-to-release@1.0.0
         with:
-          version-name: ${{ steps.tag.outputs.tagName }}
-      - name: Release Result
-        env:
-          TITLE: ${{ steps.release.outputs.title }}
-          RELEASE: ${{ steps.release.outputs.body }}
-        run: |
-          printf "$TITLE\n\n"
-          printf "%s\n" "$RELEASE"
+          version-name: ${{ steps.tagName.outputs.tag }}
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: ${{ steps.tag.outputs.tag }}
+          tag_name: ${{ steps.tagName.outputs.tag }}
           name: ${{ steps.release.outputs.title }}
           body: ${{ steps.release.outputs.body }}
