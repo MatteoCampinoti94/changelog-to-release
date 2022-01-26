@@ -99,8 +99,10 @@ try {
   const changelog = fs.readFileSync(changelogPath, {encoding: "utf-8"});
   const configuration = configurationPath ? JSON.parse(fs.readFileSync(configurationPath, {encoding: "utf-8"})) : defaultConfiguration;
 
-  const version = findVersions(changelog)[versionName];
-  if (version === undefined) return core.setFailed(`ERROR: Version '${version}' not in ${path.basename(changelogPath)}`);
+  const versions = findVersions(changelog)
+  const version = versions[versionName];
+  core.info(`VERSIONS: ${Object.keys(versions).join("\n")}`)
+  if (version === undefined) return core.setFailed(`ERROR: Version '${versionName}' not in ${path.basename(changelogPath)}`);
 
   const sections = findSections(version.body);
   sections.sections = orderSections(sections.sections, configuration.order || []);
