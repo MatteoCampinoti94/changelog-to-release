@@ -90,7 +90,7 @@ function buildRelease(sections) {
 
 try {
   const versionName = core.getInput("version-name", {required: true});
-  const changelogPath = core.getInput("changelog");
+  const changelogPath = core.getInput("changelog") || "CHANGELOG.md";
   const configurationPath = core.getInput("configuration") || null;
 
   core.info(`VERSION: ${versionName}`);
