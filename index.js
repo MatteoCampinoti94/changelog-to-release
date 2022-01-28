@@ -3,17 +3,27 @@ const fs = require("fs");
 const path = require("path");
 
 const defaultConfiguration = {
-  "emojisPrefix": true,
-  "emojis": {
-    "changes": "🚀",
-    "dependencies": "📦",
-    "distribution": "📤",
-    "features": "🚀",
-    "fixes": "🔧",
-    "notes": "📝",
-    "other": "💬",
-    "security": "🛡",
-  }, "order": ["features", "changes", "fixes", "security", "dependencies", "distribution", "notes", "other"],
+  emojisPrefix: true,
+  emojis: {
+    changes: "🚀",
+    dependencies: "📦",
+    distribution: "📤",
+    features: "🚀",
+    fixes: "🔧",
+    notes: "📝",
+    other: "💬",
+    security: "🛡",
+  },
+  order: [
+    "features",
+    "changes",
+    "fixes",
+    "security",
+    "dependencies",
+    "distribution",
+    "notes",
+    "other",
+  ],
 };
 
 function findVersions(changelog) {
