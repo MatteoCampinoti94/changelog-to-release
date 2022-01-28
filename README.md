@@ -35,6 +35,7 @@ The configuration uses three fields:
     "dependencies": "📦",
     "distribution": "🚚",
     "features": "🚀",
+    "new features": "🚀",
     "fixes": "🔧",
     "links": "🔗",
     "notes": "📝",
@@ -43,6 +44,7 @@ The configuration uses three fields:
   },
   "order": [
     "features",
+    "new features",
     "changes",
     "fixes",
     "security",

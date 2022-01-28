@@ -9,6 +9,7 @@ const defaultConfiguration = {
     dependencies: "📦",
     distribution: "🚚",
     features: "🚀",
+    "new features": "🚀",
     fixes: "🔧",
     links: "🔗",
     notes: "📝",
@@ -17,6 +18,7 @@ const defaultConfiguration = {
   },
   order: [
     "features",
+    "new features",
     "changes",
     "fixes",
     "security",
