@@ -10,6 +10,7 @@ const defaultConfiguration = {
     distribution: "🚚",
     features: "🚀",
     fixes: "🔧",
+    links: "🔗",
     notes: "📝",
     other: "💬",
     security: "🛡",
@@ -23,6 +24,7 @@ const defaultConfiguration = {
     "distribution",
     "notes",
     "other",
+    "links"
   ],
 };
 

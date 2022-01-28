@@ -36,6 +36,7 @@ The configuration uses three fields:
     "distribution": "🚚",
     "features": "🚀",
     "fixes": "🔧",
+    "links": "🔗",
     "notes": "📝",
     "other": "💬",
     "security": "🛡"
@@ -48,7 +49,8 @@ The configuration uses three fields:
     "dependencies",
     "distribution",
     "notes",
-    "other"
+    "other",
+    "links"
   ]
 }
 ```
