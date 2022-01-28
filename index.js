@@ -5,7 +5,7 @@ const path = require("path");
 const defaultConfiguration = {
   emojisPrefix: true,
   emojis: {
-    changes: "🚀",
+    changes: "⚙️",
     dependencies: "📦",
     distribution: "🚚",
     features: "🚀",

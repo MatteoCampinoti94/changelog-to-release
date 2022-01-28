@@ -31,7 +31,7 @@ The configuration uses three fields:
 {
   "emojisPrefix": true,
   "emojis": {
-    "changes": "🚀",
+    "changes": "⚙️",
     "dependencies": "📦",
     "distribution": "🚚",
     "features": "🚀",
