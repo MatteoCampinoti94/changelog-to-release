@@ -7,7 +7,7 @@ const defaultConfiguration = {
   emojis: {
     changes: "🚀",
     dependencies: "📦",
-    distribution: "📤",
+    distribution: "🚚",
     features: "🚀",
     fixes: "🔧",
     notes: "📝",
