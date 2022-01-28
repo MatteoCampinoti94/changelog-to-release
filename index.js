@@ -17,8 +17,8 @@ const defaultConfiguration = {
     security: "🛡",
   },
   order: [
-    "features",
     "new features",
+    "features",
     "changes",
     "fixes",
     "security",

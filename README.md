@@ -43,8 +43,8 @@ The configuration uses three fields:
     "security": "🛡"
   },
   "order": [
-    "features",
     "new features",
+    "features",
     "changes",
     "fixes",
     "security",
