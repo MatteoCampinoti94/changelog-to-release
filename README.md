@@ -33,7 +33,7 @@ The configuration uses three fields:
   "emojis": {
     "changes": "🚀",
     "dependencies": "📦",
-    "distribution": "📤",
+    "distribution": "🚚",
     "features": "🚀",
     "fixes": "🔧",
     "notes": "📝",
