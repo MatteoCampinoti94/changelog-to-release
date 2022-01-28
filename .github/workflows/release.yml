@@ -21,10 +21,19 @@ jobs:
         uses: MatteoCampinoti94/changelog-to-release@main
         with:
           version-name: ${{ steps.tagName.outputs.tag }}
+      - name: Build Release File
+        env:
+          TAG: ${{ steps.tagName.outputs.tag }}
+          RELEASE: ${{ steps.release.outputs.body }}
+        run: |
+          touch RELEASE.md
+          printf "%s" "$RELEASE" > RELEASE.md
+          printf "\n\n## 🚚 Distribution" >> RELEASE.md
+          printf "\n\n[changelog-to-release@%s](https://github.com/marketplace/actions/changelog-to-release?version=%s)" "$TAG" "$TAG" >> RELEASE.md
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag_name: ${{ steps.tagName.outputs.tag }}
           name: ${{ steps.release.outputs.title }}
-          body: ${{ steps.release.outputs.body }}
+          body_path: RELEASE.md
