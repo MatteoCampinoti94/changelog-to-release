@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.3
+
+### Fixes
+
+* Fix [CVE-2022-35954](https://github.com/advisories/GHSA-7r3h-m5j6-3q42)
+
 ## v1.0.2
 
 ### Features
