@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.0
+
+### Changes
+
+* Updated to Node v20
+
 ## v1.0.3
 
 ### Fixes
