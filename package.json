@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/MatteoCampinoti94/changelog-to-release",
   "dependencies": {
-    "@actions/core": "^1.9.1"
+    "@actions/core": "^1.11.1"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.38.3"
