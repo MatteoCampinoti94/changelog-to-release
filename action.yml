@@ -17,8 +17,8 @@ outputs:
   body:
     description: "Release body"
 runs:
-  using: node16
-  main: "index.js"
+  using: node20
+  main: "dist/index.js"
 branding:
   icon: align-left
   color: purple

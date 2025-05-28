@@ -3,7 +3,9 @@
   "version": "1.0.3",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "build": "ncc build index.js --license licenses.txt"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MatteoCampinoti94/changelog-to-release.git"
@@ -20,5 +22,8 @@
   "homepage": "https://github.com/MatteoCampinoti94/changelog-to-release",
   "dependencies": {
     "@actions/core": "^1.9.1"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.38.3"
   }
 }
