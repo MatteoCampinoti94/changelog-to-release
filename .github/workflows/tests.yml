@@ -2,6 +2,87 @@ name: "test"
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
+  functionalSelfTest:
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      # - id: actionYmlAgainstGithubActions
+      #   name: Validate action.yml against github-action schema
+      #   uses: ./
+      #   with:
+      #     file: "action.yml"
+      #     schema: "https://json.schemastore.org/github-action.json"
+
+      # - name: Check actionYmlAgainstGithubActions result
+      #   if: steps.actionYmlAgainstGithubActions.outputs.errorType != ''
+      #   run: |
+      #     echo "${{steps.actionYmlAgainstGithubActions.outputs.errorType}}" &&
+      #     exit 1
+
+      - name: Generate release message for test nr.1
+        id: changelog_1
+        uses: ./
+        with:
+          version-name: v1.0.0
+        if: ${{ hashFiles('CHANGELOG.md') != '' }}
+
+      - name: Check changelog_1 result
+        if: steps.changelog_1.outputs.errorType != ''
+        run: |
+          echo "${{steps.changelog_1.outputs.errorType}}" &&
+          exit 1
+
+      - name: Check if title in changelog_1 matches expectations
+        run: |
+          if [[ "${{steps.changelog_1.outputs.title}}" != "v1.0.0 - First Release" ]]; then
+            echo "Release title does not match expected format." &&
+            exit 1
+          fi
+
+      - name: Check if body in changelog_1 matches expectations
+        run: |
+          echo '${{steps.changelog_1.outputs.body}}' > generated_release_body.md &&
+              diff --strip-trailing-cr ./tests/v1.0.0.md generated_release_body.md
+
+      - name: Generate release message for test nr.2
+        id: changelog_2
+        uses: ./
+        with:
+          version-name: v1.0.1
+        if: ${{ hashFiles('CHANGELOG.md') != '' }}
+
+      - name: Check changelog_2 result
+        if: steps.changelog_2.outputs.errorType != ''
+        run: |
+          echo "${{steps.changelog_2.outputs.errorType}}" &&
+          exit 1
+
+      - name: Check if title in changelog_2 matches expectations
+        run: |
+          if [[ "${{steps.changelog_2.outputs.title}}" != "v1.0.1" ]]; then
+            echo "Release title does not match expected format." &&
+            exit 1
+          fi
+
+      - name: Check if body in changelog_2 matches expectations
+        run: |
+          echo "${{steps.changelog_2.outputs.body}}" > generated_release_body.md &&
+              diff --strip-trailing-cr ./tests/v1.0.1.md generated_release_body.md
+
   unitTest:
     if: ${{ always() }}
     runs-on: ubuntu-latest
