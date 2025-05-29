@@ -2,6 +2,8 @@ const core = require("@actions/core");
 const fs = require("fs");
 const path = require("path");
 
+module.exports = { findVersions, findSections, orderSections };
+
 const defaultConfiguration = {
   emojisPrefix: true,
   emojis: {
@@ -26,7 +28,7 @@ const defaultConfiguration = {
     "distribution",
     "notes",
     "other",
-    "links"
+    "links",
   ],
 };
 
@@ -42,7 +44,8 @@ function findVersions(changelog) {
     nextHeader = changelog.search(/^## /m);
     nextHeader = nextHeader >= 0 ? nextHeader : changelog.length;
     versions[version] = {
-      title, body: changelog.substring(0, nextHeader - 1).trim(),
+      title,
+      body: changelog.substring(0, nextHeader - 1).trim(),
     };
     changelog = changelog.substr(nextHeader);
     nextHeader = changelog.search(/^## /m);
@@ -54,7 +57,10 @@ function findVersions(changelog) {
 function findSections(changelog) {
   const sections = [];
   let nextHeader = changelog.search(/^#/m);
-  const unlabelled = changelog.substring(0, nextHeader >= 0 ? nextHeader : changelog.length);
+  const unlabelled = changelog.substring(
+    0,
+    nextHeader >= 0 ? nextHeader : changelog.length
+  );
 
   while (nextHeader >= 0) {
     changelog = changelog.substr(nextHeader);
@@ -67,7 +73,7 @@ function findSections(changelog) {
     nextHeader = changelog.search(/^### /m);
   }
 
-  return {unlabelled, sections};
+  return { unlabelled, sections };
 }
 
 function orderSections(sections, sectionsOrder) {
@@ -90,42 +96,78 @@ function orderSections(sections, sectionsOrder) {
 }
 
 function emojiSections(sections, sectionsEmojis, prefix) {
-  if (prefix) return sections.map(([title, body]) =>
-    [((sectionsEmojis[title.toLowerCase()] || "") + " " + title).trim(), body]);
-  else return sections.map(([title, body]) =>
-    [(title + " " + (sectionsEmojis[title.toLowerCase()] || "")).trim(), body]);
+  if (prefix)
+    return sections.map(([title, body]) => [
+      ((sectionsEmojis[title.toLowerCase()] || "") + " " + title).trim(),
+      body,
+    ]);
+  else
+    return sections.map(([title, body]) => [
+      (title + " " + (sectionsEmojis[title.toLowerCase()] || "")).trim(),
+      body,
+    ]);
 }
 
 function buildRelease(sections) {
   let release = sections.unlabelled ? sections.unlabelled.trim() + "\n\n" : "";
-  sections.sections.forEach(([title, body]) => release += `## ${title}\n\n${body.replace(/^#/mg, "")}\n\n`);
+  sections.sections.forEach(
+    ([title, body]) =>
+      (release += `## ${title}\n\n${body.replace(/^#/gm, "")}\n\n`)
+  );
   return release.trim();
 }
 
-try {
-  const versionName = core.getInput("version-name", {required: true});
-  const changelogPath = core.getInput("changelog") || "CHANGELOG.md";
-  const configurationPath = core.getInput("configuration") || null;
+function run() {
+  try {
+    const versionName = core.getInput("version-name", { required: true });
+    const changelogPath = core.getInput("changelog") || "CHANGELOG.md";
+    const configurationPath = core.getInput("configuration") || null;
 
-  core.info(`VERSION: ${versionName}`);
-  core.info(`CHANGELOG: ${changelogPath}`);
-  core.info(`CONFIGURATION: ${configurationPath || "{default}"}`);
+    core.info(`VERSION: ${versionName}`);
+    core.info(`CHANGELOG: ${changelogPath}`);
+    core.info(`CONFIGURATION: ${configurationPath || "{default}"}`);
 
-  const changelog = fs.readFileSync(changelogPath, {encoding: "utf-8"}).trim() + "\n";
-  const configuration = configurationPath ? JSON.parse(fs.readFileSync(configurationPath, {encoding: "utf-8"})) : defaultConfiguration;
-  configuration.emojisPrefix = configuration.emojisPrefix === undefined ? true : configuration.emojisPrefix;
+    const changelog =
+      fs.readFileSync(changelogPath, { encoding: "utf-8" }).trim() + "\n";
+    const configuration = configurationPath
+      ? JSON.parse(fs.readFileSync(configurationPath, { encoding: "utf-8" }))
+      : defaultConfiguration;
+    configuration.emojisPrefix =
+      configuration.emojisPrefix === undefined
+        ? true
+        : configuration.emojisPrefix;
 
-  const versions = findVersions(changelog);
-  const version = versions[versionName];
-  core.info(`VERSIONS: ${Object.keys(versions).slice(0, 5).join(", ")}` + (Object.keys(versions).length > 5 ? `, ... [${Object.keys(versions).length - 5} more]` : ""));
-  if (version === undefined) return core.setFailed(`ERROR: Version '${versionName}' not in ${path.basename(changelogPath)}`);
+    const versions = findVersions(changelog);
+    const version = versions[versionName];
+    core.info(
+      `VERSIONS: ${Object.keys(versions).slice(0, 5).join(", ")}` +
+        (Object.keys(versions).length > 5
+          ? `, ... [${Object.keys(versions).length - 5} more]`
+          : "")
+    );
+    if (version === undefined)
+      return core.setFailed(
+        `ERROR: Version '${versionName}' not in ${path.basename(changelogPath)}`
+      );
 
-  const sections = findSections(version.body);
-  sections.sections = orderSections(sections.sections, configuration.order || []);
-  sections.sections = emojiSections(sections.sections, configuration.emojis || {}, configuration.emojisPrefix);
+    const sections = findSections(version.body);
+    sections.sections = orderSections(
+      sections.sections,
+      configuration.order || []
+    );
+    sections.sections = emojiSections(
+      sections.sections,
+      configuration.emojis || {},
+      configuration.emojisPrefix
+    );
 
-  core.setOutput("title", version.title);
-  core.setOutput("body", buildRelease(sections));
-} catch (error) {
-  core.setFailed(error.message);
+    core.setOutput("title", version.title);
+    core.setOutput("body", buildRelease(sections));
+  } catch (error) {
+    core.setFailed(error.message);
+  }
+}
+
+if (require.main === module) {
+  run();
 }
