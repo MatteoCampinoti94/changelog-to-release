@@ -5,7 +5,7 @@
   "type": "module",
   "main": "src/index.js",
   "scripts": {
-    "test": "npx --yes @github/local-action . src/index.js .env.test"
+    "test": "npx --yes @github/local-action . src/main.js .env.test"
   },
   "repository": {
     "type": "git",
