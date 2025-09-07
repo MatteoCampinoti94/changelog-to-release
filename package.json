@@ -2,6 +2,7 @@
   "name": "changelog-to-release",
   "version": "1.0.5",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "npx --yes @github/local-action . index.js .env.test"
