@@ -35,16 +35,16 @@ function findVersions(changelog) {
   let nextHeader = changelog.search(/^## /m);
 
   while (nextHeader >= 0) {
-    changelog = changelog.substr(nextHeader);
+    changelog = changelog.substring(nextHeader);
     const version = changelog.match(/^## ([^ \n]*)[^\n]*$/m)[1].trim();
     const title = changelog.match(/^## ([^\n]*)$/m)[1].trim();
-    changelog = changelog.substr(changelog.search(/\n/));
+    changelog = changelog.substring(changelog.search(/\n/));
     nextHeader = changelog.search(/^## /m);
     nextHeader = nextHeader >= 0 ? nextHeader : changelog.length;
     versions[version] = {
       title, body: changelog.substring(0, nextHeader - 1).trim(),
     };
-    changelog = changelog.substr(nextHeader);
+    changelog = changelog.substring(nextHeader);
     nextHeader = changelog.search(/^## /m);
   }
 
@@ -57,13 +57,13 @@ function findSections(changelog) {
   const unlabelled = changelog.substring(0, nextHeader >= 0 ? nextHeader : changelog.length);
 
   while (nextHeader >= 0) {
-    changelog = changelog.substr(nextHeader);
+    changelog = changelog.substring(nextHeader);
     const title = changelog.match(/^### ([^\n]*)$/m)[1].trim();
-    changelog = changelog.substr(changelog.search(/\n/));
+    changelog = changelog.substring(changelog.search(/\n/));
     nextHeader = changelog.search(/^### /m);
     nextHeader = nextHeader >= 0 ? nextHeader : changelog.length;
     sections.push([title, changelog.substring(0, nextHeader).trim()]);
-    changelog = changelog.substr(nextHeader);
+    changelog = changelog.substring(nextHeader);
     nextHeader = changelog.search(/^### /m);
   }
 
@@ -108,25 +108,26 @@ export function run() {
     const changelogPath = core.getInput("changelog") || "CHANGELOG.md";
     const configurationPath = core.getInput("configuration") || null;
 
-  core.info(`VERSION: ${versionName}`);
-  core.info(`CHANGELOG: ${changelogPath}`);
-  core.info(`CONFIGURATION: ${configurationPath || "{default}"}`);
+    core.info(`VERSION: ${versionName}`);
+    core.info(`CHANGELOG: ${changelogPath}`);
+    core.info(`CONFIGURATION: ${configurationPath || "{default}"}`);
 
-  const changelog = fs.readFileSync(changelogPath, {encoding: "utf-8"}).trim() + "\n";
-  const configuration = configurationPath ? JSON.parse(fs.readFileSync(configurationPath, {encoding: "utf-8"})) : defaultConfiguration;
-  configuration.emojisPrefix = configuration.emojisPrefix === undefined ? true : configuration.emojisPrefix;
+    const changelog = fs.readFileSync(changelogPath, {encoding: "utf-8"}).trim() + "\n";
+    const configuration = configurationPath ? JSON.parse(fs.readFileSync(configurationPath, {encoding: "utf-8"})) : defaultConfiguration;
+    configuration.emojisPrefix = configuration.emojisPrefix === undefined ? true : configuration.emojisPrefix;
 
-  const versions = findVersions(changelog);
-  const version = versions[versionName];
-  core.info(`VERSIONS: ${Object.keys(versions).slice(0, 5).join(", ")}` + (Object.keys(versions).length > 5 ? `, ... [${Object.keys(versions).length - 5} more]` : ""));
-  if (version === undefined) return core.setFailed(`ERROR: Version '${versionName}' not in ${path.basename(changelogPath)}`);
+    const versions = findVersions(changelog);
+    const version = versions[versionName];
+    core.info(`VERSIONS: ${Object.keys(versions).slice(0, 5).join(", ")}` + (Object.keys(versions).length > 5 ? `, ... [${Object.keys(versions).length - 5} more]` : ""));
+    if (version === undefined) return core.setFailed(`ERROR: Version '${versionName}' not in ${path.basename(changelogPath)}`);
 
-  const sections = findSections(version.body);
-  sections.sections = orderSections(sections.sections, configuration.order || []);
-  sections.sections = emojiSections(sections.sections, configuration.emojis || {}, configuration.emojisPrefix);
+    const sections = findSections(version.body);
+    sections.sections = orderSections(sections.sections, configuration.order || []);
+    sections.sections = emojiSections(sections.sections, configuration.emojis || {}, configuration.emojisPrefix);
 
-  core.setOutput("title", version.title);
-  core.setOutput("body", buildRelease(sections));
-} catch (error) {
-  core.setFailed(error.message);
+    core.setOutput("title", version.title);
+    core.setOutput("body", buildRelease(sections));
+  } catch (error) {
+    core.setFailed(error.message);
+  }
 }
