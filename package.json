@@ -3,7 +3,9 @@
   "version": "1.0.3",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npx @github/local-action . index.js .env.test"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MatteoCampinoti94/changelog-to-release.git"
@@ -23,5 +25,8 @@
   "homepage": "https://github.com/MatteoCampinoti94/changelog-to-release",
   "dependencies": {
     "@actions/core": "^1.11.1"
+  },
+  "devDependencies": {
+    "@github/local-action": "^5.2.0"
   }
 }
