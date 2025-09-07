@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.6
+
+### Fixes
+
+* Fix action not running any code because of missing entrypoint
+
 ## v1.0.5
 
 ### Fixes
