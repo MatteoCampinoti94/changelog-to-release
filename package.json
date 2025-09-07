@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx @github/local-action . index.js .env.test"
+    "test": "npx --yes @github/local-action . index.js .env.test"
   },
   "repository": {
     "type": "git",
