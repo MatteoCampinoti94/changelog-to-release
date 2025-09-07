@@ -19,5 +19,10 @@ jobs:
           touch .env.test
           printf 'INPUT_version-name="v1.0.0"\n' >> .env.test
           printf 'INPUT_changelog="CHANGELOG.md"\n' >> .env.test
-      - name: Test action
+      - name: Test action locally
         run: npm run test
+      - name: Test action import
+        uses: MatteoCampinoti94/changelog-to-release@main
+        with:
+          version-name: v1.0.0
+          changelog: CHANGELOG.test.md
