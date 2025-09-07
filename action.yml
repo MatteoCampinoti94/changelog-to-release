@@ -17,7 +17,7 @@ outputs:
   body:
     description: "Release body"
 runs:
-  using: node16
+  using: node24
   main: "index.js"
 branding:
   icon: align-left

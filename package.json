@@ -8,6 +8,9 @@
     "type": "git",
     "url": "git+https://github.com/MatteoCampinoti94/changelog-to-release.git"
   },
+  "engines": {
+    "node": ">=24"
+  },
   "keywords": [],
   "author": {
     "name": "MatteoCampinoti94",
