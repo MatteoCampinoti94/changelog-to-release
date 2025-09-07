@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.5
+
+### Fixes
+
+* Use `import` instead of `require`
+
 ## v1.0.4
 
 ### Changes
