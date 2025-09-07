@@ -37,5 +37,5 @@ jobs:
           echo "$RELEASE" > release.md
           cat release.md
           grep "^## .+ Fixes" release.md || exit 1
-          grep "^[*] Fix 1" release.md || exit 1
-          grep "^[*] Fix 2" release.md || exit 1
+          grep "^[*] Fix 1" release.md || exit 2
+          grep "^[*] Fix 2" release.md || exit 3
