@@ -18,11 +18,24 @@ jobs:
         run: |
           touch .env.test
           printf 'INPUT_version-name="v1.0.0"\n' >> .env.test
-          printf 'INPUT_changelog="CHANGELOG.md"\n' >> .env.test
+          printf 'INPUT_changelog="CHANGELOG.test.md"\n' >> .env.test
+          touch CHANGELOG.test.md
+          printf "## v1.0.0 - test version\n\n" >> CHANGELOG.test.md
+          printf "### Fixes\n\n* Fix 1\n* Fix 2" >> CHANGELOG.test.md
       - name: Test action locally
         run: npm run test
       - name: Test action import
+        id: release
         uses: MatteoCampinoti94/changelog-to-release@main
         with:
           version-name: v1.0.0
           changelog: CHANGELOG.test.md
+      - name: Test action output
+        env:
+          RELEASE: ${{ steps.release.outputs.body }}
+        run:
+          echo "$RELEASE" > release.md
+          cat release.md
+          grep "^## Fixes" release.md || exit 1
+          grep "^* Fix 1" release.md || exit 1
+          grep "^* Fix 2" release.md || exit 1
