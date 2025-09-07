@@ -125,8 +125,12 @@ export function run() {
     sections.sections = orderSections(sections.sections, configuration.order || []);
     sections.sections = emojiSections(sections.sections, configuration.emojis || {}, configuration.emojisPrefix);
 
+    const body = buildRelease(sections)
+
     core.setOutput("title", version.title);
-    core.setOutput("body", buildRelease(sections));
+    core.setOutput("body", body);
+
+    core.info(body)
   } catch (error) {
     core.setFailed(error.message);
   }
