@@ -1,6 +1,6 @@
-const core = require("@actions/core");
-const fs = require("fs");
-const path = require("path");
+import * as core from "@actions/core"
+import fs from "fs"
+import path from "path"
 
 const defaultConfiguration = {
   emojisPrefix: true,
