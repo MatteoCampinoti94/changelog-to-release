@@ -33,7 +33,7 @@ jobs:
       - name: Test action output
         env:
           RELEASE: ${{ steps.release.outputs.body }}
-        run:
+        run: |
           echo "$RELEASE" > release.md
           cat release.md
           grep "^## Fixes" release.md || exit 1
