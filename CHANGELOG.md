@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.0.4
+
+### Changes
+
+* Use Node 24
+* Add basic testing
+
 ## v1.0.3
 
 ### Fixes
